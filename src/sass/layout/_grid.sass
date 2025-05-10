@@ -1,0 +1,49 @@
+@use 'sass:math'
+
+$grid-columns: 12 !default
+
+@mixin wiGrid($breakpoint: null)
+  @for $i from 1 through $grid-columns 
+    $width: math.div(100%, $grid-columns) * $i
+
+    @if $breakpoint == null 
+      .col-#{$i} 
+        flex: 0 0 #{$width}
+        max-width: #{$width}
+        box-sizing: border-box
+      
+    @else
+      .col-#{$breakpoint}-#{$i} 
+        flex: 0 0 #{$width}
+        max-width: #{$width}
+        box-sizing: border-box
+
+
+@include wiGrid()
+@include sm
+    @include wiGrid(sm)
+@include md
+    @include wiGrid(md)
+@include lg
+    @include wiGrid(lg)
+@include xl
+    @include wiGrid(xl)
+
+.row
+  display: flex
+  flex-wrap: wrap
+  margin-right: -1rem
+  margin-left: -1rem
+
+[class*='col-']
+  padding-right: 1rem
+  padding-left: 1rem
+
+.container
+    max-width: 1200px
+    width: 100%
+    margin: 0 auto
+    padding: 0 1rem
+    &-fluid
+        @extend .container
+        max-width: 100%

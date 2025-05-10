@@ -1,0 +1,34 @@
+@use 'sass:list'
+  
+$barlow-fonts: (
+  ("Barlow-Bold", bold, normal),
+  ("Barlow-Black", 900, normal),
+  ("Barlow-BlackItalic", 900, italic),
+  ("Barlow-ExtraLightItalic", 200, italic),
+  ("Barlow-ExtraBoldItalic", bold, italic),
+  ("Barlow-BoldItalic", bold, italic),
+  ("Barlow-Italic", normal, italic),
+  ("Barlow-ExtraBold", bold, normal),
+  ("Barlow-ExtraLight", 200, normal),
+  ("Barlow-Light", 300, normal),
+  ("Barlow-LightItalic", 300, italic),
+  ("Barlow-Medium", 500, normal),
+  ("Barlow-SemiBold", 600, normal),
+  ("Barlow-MediumItalic", 500, italic),
+  ("Barlow-Regular", normal, normal),
+  ("Barlow-ThinItalic", 100, italic),
+  ("Barlow-SemiBoldItalic", 600, italic),
+  ("Barlow-Thin", 100, normal)
+)
+
+@each $font in $barlow-fonts 
+  $filename: list.nth($font, 1)
+  $weight: list.nth($font, 2)
+  $style: list.nth($font, 3)
+
+  @font-face
+    font-family: 'Barlow'
+    src: url('../assets/fonts/Barlow/#{$filename}.woff2') format('woff2'), url('../assets/fonts/Barlow/#{$filename}.woff') format('woff')
+    font-weight: #{$weight}
+    font-style: #{$style}
+    font-display: swap

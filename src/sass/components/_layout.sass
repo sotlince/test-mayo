@@ -1,0 +1,31 @@
+main
+    padding: 2rem 1.2rem 5.6rem
+    width: 100%
+    overflow: auto
+    height: calc( 100lvh - 56px - 342px )
+    @include md
+        padding: 2rem 0rem 5.6rem
+
+@include lg2
+    #root
+        display: grid
+        grid-template-areas:"header header" "cont-video main"
+        grid-template-columns: 1fr 2fr
+        grid-template-rows: 56px 1fr
+        height: 100%
+
+        .header
+            grid-area: header
+        .main
+            grid-area: main
+            height: calc(100vh - 60px)
+        .cont-player
+            grid-area: cont-video
+            max-height: 100%
+            display: flex
+            //align-items: flex-end
+            padding-bottom: 4.3rem
+            .video-js
+                width: 500px
+                height: auto
+                margin: auto

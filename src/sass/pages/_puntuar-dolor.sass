@@ -1,0 +1,34 @@
+.grup-card
+    display: grid
+    gap: 1.5rem
+
+.card
+    &.puntuar-dolor 
+        position: relative
+        .close
+            position: absolute
+            right: 10px
+            top: 10px
+            opacity: 0.6
+            cursor: pointer
+            transition: all 0.3s ease-in-out 0s
+            &:hover
+                opacity: 0.9
+        
+        .cont-center
+            display: flex
+            gap: 1rem
+            margin-bottom: 1rem
+            img
+                max-width: 100px
+                border: 3px solid #fff
+                border-radius: 9px
+                box-shadow: 0px 3px 5px 0px #0000007d
+
+            h4.titulo
+                font: normal normal 500 1.3rem / 100% "Barlow"
+                text-transform: uppercase
+                margin-top: 1rem
+            p.lado
+                font: normal normal 500 1.2rem / 100% "Barlow"
+                color: #707070

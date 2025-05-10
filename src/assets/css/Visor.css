@@ -1,0 +1,30 @@
+/* Estilo base para tarjetas */
+.paciente-card {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: #1e3a8a; /* azul */
+    background-color: white;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Llamado actual parpadeante */
+  @keyframes call-blink {
+    0%, 100% {
+      background-color: white;
+      color: #1e3a8a; /* azul oscuro */
+    }
+    50% {
+      background-color: #1e3a8a; /* fondo azul oscuro */
+      color: white;
+    }
+  }
+  
+  .animate-call-blink {
+    animation: call-blink 1.5s infinite;
+    transition: all 0.5s ease-in-out;
+  }
+  
+  

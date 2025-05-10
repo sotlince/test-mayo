@@ -1,0 +1,101 @@
+.grup-bodies
+    display: grid
+    .btns-b 
+        display: flex
+        justify-content: center
+
+    .grup-check
+        position: relative
+        display: flex
+        justify-content: center
+        max-width: 360px
+        margin: auto
+        &.body-frontal
+            img
+                width: 360px
+        &.body-reverso
+            img
+                width: 360px
+        
+        span.points-body
+            position: absolute
+            svg.MuiSvgIcon-root
+                border-radius: 20px
+                width: 14px
+                max-height: 14px
+                aspect-ratio: 1 / 1
+                background: #333
+                box-shadow: 0px 0px 0px 6px #33333385
+                transition: all 0.3s ease-in-out 0s
+                path
+                    display: none
+
+            &.Mui-checked
+                svg.MuiSvgIcon-root
+                    background: $rojo
+                    box-shadow: 0px 0px 0px 3px #ffffff
+                    width: 18px
+                    max-height: 18px
+
+                
+            &.point
+                &1
+                    top:16px
+                    left:163px
+                &2
+                    top:54px
+                    left:132px
+                &3
+                    top:54px
+                    left:194px
+                &4
+                    top:110px
+                    left:163px
+                &5
+                    top:140px
+                    left:90px
+                &6
+                    top:140px
+                    left:230px
+                &7
+                    top:190px
+                    left:163px
+                &8
+                    top: 240px
+                    left:70px
+                &9
+                    top:240px
+                    left:250px
+                &10
+                    top:360px
+                    left:30px
+                &11
+                    top:360px
+                    left:290px
+                &12
+                    top:350px
+                    left:158px
+                &13
+                    top:420px
+                    left:120px
+                &14
+                    top:420px
+                    left:195px
+                &15
+                    top:500px
+                    left:130px
+                &16
+                    top:500px
+                    left:187px
+                &17
+                    top:580px
+                    left:130px
+                &18
+                    top:580px
+                    left:187px
+                &19
+                    top:680px
+                    left:130px
+                &20
+                    top:680px
+                    left:187px

@@ -1,0 +1,57 @@
+/* index.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fix: Asegura que todo tenga el mismo modelo de caja */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+.rbc-toolbar button {
+  pointer-events: auto !important;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out both;
+}
+.swal2-cancel {
+  background-color: #f28b82 !important;
+  color: white !important;
+}
+
+/* Solución definitiva para botones de navegación */
+.rbc-toolbar button {
+  all: unset;
+  cursor: pointer;
+  font-weight: 500;
+  color: #4b5563; /* Tailwind: text-gray-700 */
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.375rem;
+  background-color: #f3f4f6; /* Tailwind: bg-gray-100 */
+  transition: background-color 0.2s;
+}
+
+/* Fix: Asegura altura mínima total para centrar elementos verticalmente */
+html,
+body,
+#root {
+  height: 100%;
+}
+/* Register*/
+.input {
+  @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400;
+}
+/* Añádelo en App.css o en tailwind */
+.rbc-toolbar button {
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  z-index: 999 !important;
+}
