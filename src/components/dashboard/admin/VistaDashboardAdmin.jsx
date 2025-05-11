@@ -14,22 +14,22 @@ export default function VistaDashboardAdmin() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:4000/api/usuarios", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/usuarios`, {
       headers: { Authorization: `Bearer ${token}` },
     }).then(res => res.json())
       .then(data => { if (data.ok) setUsuarios(data.usuarios); });
 
-    fetch("http://localhost:4000/api/pacientes", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/pacientes`, {
       headers: { Authorization: `Bearer ${token}` },
     }).then(res => res.json())
       .then(data => { if (data.ok) setPacientes(data.pacientes); });
 
-    fetch("http://localhost:4000/api/citas", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/citas`, {
       headers: { Authorization: `Bearer ${token}` },
     }).then(res => res.json())
       .then(data => { if (data.ok) setCitas(data.citas); });
 
-    fetch("http://localhost:4000/api/pacientes", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/pacientes`, {
       headers: { Authorization: `Bearer ${token}` },
     }).then(res => res.json())
       .then(data => { if (data.ok) setReportes(data.pacientes); });

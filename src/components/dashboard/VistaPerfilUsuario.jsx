@@ -10,7 +10,7 @@ export default function VistaPerfilUsuario() {
   const fetchPerfil = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:4000/api/auth/profile", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -28,7 +28,7 @@ export default function VistaPerfilUsuario() {
   const guardarCambios = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`http://localhost:4000/api/usuarios/${usuario.id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/${usuario.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

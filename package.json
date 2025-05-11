@@ -1,8 +1,8 @@
 {
-  "name": "sistema-inclusivo",
+  "name": "test-sistema-inclusivo",
   "private": true,
   "version": "0.0.0",
-  "description": "Sistema Inclusivo",
+  "description": "Test Sistema Inclusivo",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

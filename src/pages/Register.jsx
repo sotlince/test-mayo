@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
 import logo from "../assets/logo.png";
+import { useNavigate } from "react-router-dom";
+
 
 
 export default function Register() {
@@ -12,7 +14,7 @@ export default function Register() {
     rol: "",
     especialidad: "",
   });
-
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const obtenerIdRol = (rol) => {
@@ -20,7 +22,7 @@ export default function Register() {
       case "Administrador": return 1;
       case "Secretaria": return 2;
       case "Medico": return 3;
-      case "Coordinador": return 4;
+      //case "Coordinador": return 4;
       default: return null;
     }
   };
@@ -45,7 +47,7 @@ export default function Register() {
     const id_especialidad = form.rol === "Medico" ? Number(form.especialidad) : null;
 
     try {
-      const response = await fetch("http://localhost:4000/api/auth/register", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -66,6 +68,8 @@ export default function Register() {
           text: data.mensaje,
           icon: "success",
           confirmButtonColor: "#4f46e5",
+        }).then(() => {
+          navigate("/login"); // ✅ redirección aquí
         });
 
         setForm({
@@ -162,7 +166,7 @@ export default function Register() {
             {/* <option value="Administrador">Administrador</option> */}
             <option value="Secretaria">Secretaria</option>
             <option value="Medico">Médico</option>
-            <option value="Coordinador">Coordinador</option>
+            
           </select>
 
           {form.rol === "Medico" && (

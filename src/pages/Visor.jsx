@@ -13,7 +13,7 @@ export default function Visor() {
 
   const fetchDatos = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/llamados/dashboard");
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/llamados/dashboard`);
       const data = await res.json();
 
       if (data.ok) {

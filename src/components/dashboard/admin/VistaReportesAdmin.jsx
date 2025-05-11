@@ -13,7 +13,7 @@ export default function VistaReportesAdmin() {
   const fetchData = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:4000/api/pacientes", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/pacientes`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -33,7 +33,7 @@ export default function VistaReportesAdmin() {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch(`http://localhost:4000/api/pacientes/${item.id_paciente}/completo`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/pacientes/${item.id_paciente}/completo`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();

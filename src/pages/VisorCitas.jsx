@@ -6,12 +6,12 @@ export default function VisorCitas() {
 
   const fetchCitas = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/citas/visor");
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/citas/visor`);
       const data = await res.json();
 
       if (data.ok) {
         const citasOrdenadas = data.citas.sort(
-          (a, b) => new Date(a.fecha) - new Date(b.fecha)
+          (a, b) => new Date(a.fecha_inicio) - new Date(b.fecha_inicio)
         );
         setCitas(citasOrdenadas);
       }
@@ -47,7 +47,7 @@ export default function VisorCitas() {
       </div>
       <div className="text-right">
         <p className="text-md font-bold text-indigo-600">
-          {new Date(cita.fecha).toLocaleString("es-CL", {
+          {new Date(cita.fecha_inicio).toLocaleString("es-CL", {
             dateStyle: "short",
             timeStyle: "short",
           })}
@@ -58,13 +58,10 @@ export default function VisorCitas() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-100 to-blue-200 flex flex-col justify-center items-center gap-6 px-6 py-10 font-sans">
-      
-      {/* Título principal */}
       <h1 className="text-5xl font-extrabold text-blue-700 drop-shadow-lg mb-6">
         Citas Reservadas
       </h1>
 
-      {/* Lista de citas */}
       {citas.length === 0 ? (
         <p className="text-gray-500">No hay citas programadas.</p>
       ) : (

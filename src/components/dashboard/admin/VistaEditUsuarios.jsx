@@ -27,13 +27,13 @@ export default function VistaEditUsuarios() {
   const fetchUsuarios = async () => {
     try {
       const token = localStorage.getItem("token");
-      const resUsuarios = await fetch("http://localhost:4000/api/usuarios", {
+      const resUsuarios = await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const usuariosData = await resUsuarios.json();
       if (usuariosData.ok) setUsuarios(usuariosData.usuarios);
 
-      const resRoles = await fetch("http://localhost:4000/api/usuarios/roles", {
+      const resRoles = await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/roles`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const rolesData = await resRoles.json();
@@ -53,7 +53,7 @@ export default function VistaEditUsuarios() {
 
     try {
       const token = localStorage.getItem("token");
-      await fetch(`http://localhost:4000/api/usuarios/${idUsuario}/rol`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/${idUsuario}/rol`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -72,7 +72,7 @@ export default function VistaEditUsuarios() {
     const { id_usuario, nombre_completo, correo, telefono, rol, id_especialidad } = usuarioEditando;
 
     try {
-      const res = await fetch(`http://localhost:4000/api/usuarios/${id_usuario}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/${id_usuario}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -106,7 +106,7 @@ export default function VistaEditUsuarios() {
     if (!window.confirm("¿Seguro que deseas eliminar este usuario?")) return;
     try {
       const token = localStorage.getItem("token");
-      await fetch(`http://localhost:4000/api/usuarios/${idUsuario}`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/${idUsuario}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -137,7 +137,7 @@ export default function VistaEditUsuarios() {
   
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`http://localhost:4000/api/auth/register`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

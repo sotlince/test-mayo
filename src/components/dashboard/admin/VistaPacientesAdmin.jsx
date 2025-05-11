@@ -14,7 +14,7 @@ export default function VistaPacientesAdmin() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:4000/api/pacientes", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/pacientes`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())
@@ -53,7 +53,7 @@ export default function VistaPacientesAdmin() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://localhost:4000/api/pacientes/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/pacientes/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

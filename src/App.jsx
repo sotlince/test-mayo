@@ -16,7 +16,7 @@ import InformacionMedica from "./components/formulario/pasos/InformacionMedica";
 import Visor from "./pages/Visor";
 import VisorCitas from "./pages/VisorCitas";
 import VistaPerfilUsuario from "./components/dashboard/VistaPerfilUsuario";
-
+import VistaCitasUnificada from "./components/dashboard/VistaCitasUnificada";
 
 // Dashboards por rol
 import DashboardAdmin from "./components/dashboard/admin/DashboardAdmin";
@@ -88,7 +88,7 @@ export default function App() {
       >
         <Route index element={<VistaUsuarios />} />
         <Route path="pacientes_admin" element={<VistaPacientesAdmin />} />
-        <Route path="citas_admin" element={<VistaCitasAdmin />} />
+        <Route path="citas" element={<VistaCitasUnificada />} />
         <Route path="reportes_admin" element={<VistaReportesAdmin />} />
         <Route path="llamados_admin" element={<VistaLlamadosAdmin />} />
         <Route path="edit_usuarios" element={<VistaEditUsuarios />} />
@@ -108,7 +108,7 @@ export default function App() {
       >
         <Route index element={<VistaCitasSecretaria />} />
         <Route path="llamados" element={<VistaLlamadosSecretaria />} />
-        <Route path="citas" element={<VistaCitas />} />
+        <Route path="citas" element={<VistaCitasUnificada />} />
         <Route path="pacientes" element={<VistaPacientesSecretaria />} />
         <Route path="agregar-paciente" element={<VistaAgregarPaciente />} />
         <Route path="perfil" element={<VistaPerfilUsuario />} /> {/* 🎉 agregado */}
@@ -125,13 +125,13 @@ export default function App() {
       >
         <Route index element={<VistaIniciosMedico />} />
         <Route path="pacientes" element={<VistaPacientesMedico />} />
-        <Route path="citas" element={<VistaCitasMedico />} />
+        <Route path="citas" element={<VistaCitasUnificada />} />
         <Route path="reportes" element={<VistaReportesMedico />} />
         <Route path="perfil" element={<VistaPerfilUsuario />} /> {/* 🎉 agregado */}
       </Route>
 
       {/* ✅ Redirección por defecto */}
-      <Route path="*" element={<Navigate to="/login" />} />
+      <Route path="*" element={<Navigate to="/formulario/datos-basicos" />} />
     </Routes>
   );
 }

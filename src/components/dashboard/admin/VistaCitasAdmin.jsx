@@ -34,7 +34,7 @@ export default function VistaCitasAdmin() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:4000/api/citas", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/citas`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())

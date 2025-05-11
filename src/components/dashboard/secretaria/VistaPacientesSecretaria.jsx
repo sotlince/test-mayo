@@ -12,7 +12,7 @@ export default function VistaPacientesSecretaria() {
     const token = localStorage.getItem("token");
 
     // Obtener pacientes
-    fetch("http://localhost:4000/api/pacientes", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/pacientes`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())
@@ -22,7 +22,7 @@ export default function VistaPacientesSecretaria() {
       });
 
     // Obtener llamados pendientes
-    fetch("http://localhost:4000/api/llamados/ordenados", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/llamados/ordenados`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())

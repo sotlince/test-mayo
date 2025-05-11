@@ -60,7 +60,7 @@ export default function Sidebar({ role }) {
               </Link>
             </li>
             <li>
-              <Link to="/dashboard/admin/citas_admin" className={itemClass}>
+              <Link to="/dashboard/admin/citas" className={itemClass}>
                 <Calendar />
                 {abierto && "Citas"}
               </Link>

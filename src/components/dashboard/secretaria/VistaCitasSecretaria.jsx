@@ -13,7 +13,7 @@ export default function VistaDashboardSecretaria() {
     const token = localStorage.getItem("token");
   
     // Pacientes
-    fetch("http://localhost:4000/api/pacientes", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/pacientes`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())
@@ -22,7 +22,7 @@ export default function VistaDashboardSecretaria() {
       });
   
     // Citas del día
-    fetch("http://localhost:4000/api/citas", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/citas`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())
@@ -35,7 +35,7 @@ export default function VistaDashboardSecretaria() {
       });
   
     // Llamados pendientes
-    fetch("http://localhost:4000/api/llamados/ordenados", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/llamados/ordenados`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())

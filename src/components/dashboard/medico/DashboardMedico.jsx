@@ -17,7 +17,7 @@ export default function DashboardMedico() {
 
     const fetchPerfil = async () => {
       try {
-        const res = await fetch("http://localhost:4000/api/auth/profile", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/profile`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

@@ -25,7 +25,7 @@ export default function VistaLlamadosSecretaria() {
 
   const fetchLlamadosDashboard = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/llamados/dashboard");
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/llamados/dashboard`);
       const data = await res.json();
       if (data.ok) {
         setLlamadosDashboard({
@@ -48,7 +48,7 @@ export default function VistaLlamadosSecretaria() {
     try {
       const token = localStorage.getItem("token");
       console.log("🚀 Enviando PUT a /api/llamados/", modal.id, "con estado:", modal.accion);
-      const res = await fetch(`http://localhost:4000/api/llamados/${modal.id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/llamados/${modal.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +80,7 @@ export default function VistaLlamadosSecretaria() {
       for (let i = 0; i < nuevosOrden.length; i++) {
         const llamado = nuevosOrden[i];
         console.log("🛫 Enviando PUT a /api/llamados/orden/", llamado.id_llamado, "con orden:", i + 1);
-        await fetch(`http://localhost:4000/api/llamados/orden/${llamado.id_llamado}`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/llamados/orden/${llamado.id_llamado}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

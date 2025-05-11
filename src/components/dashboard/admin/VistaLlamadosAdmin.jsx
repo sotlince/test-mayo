@@ -25,7 +25,7 @@ export default function VistaLlamadosAdmin() {
 
   const fetchLlamadosDashboard = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/llamados/dashboard");
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/llamados/dashboard`);
       const data = await res.json();
       if (data.ok) {
         setLlamadosDashboard({
@@ -47,7 +47,7 @@ export default function VistaLlamadosAdmin() {
   const ejecutarCambioEstado = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`http://localhost:4000/api/llamados/${modal.id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/llamados/${modal.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -81,7 +81,7 @@ console.log("🛑 DEBUG modal.accion:", modal.accion);
       for (let i = 0; i < nuevosOrden.length; i++) {
         const llamado = nuevosOrden[i];
         
-        await fetch(`http://localhost:4000/api/llamados/orden/${llamado.id_llamado}`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/llamados/orden/${llamado.id_llamado}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

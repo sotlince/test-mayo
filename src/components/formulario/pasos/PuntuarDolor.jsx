@@ -103,7 +103,7 @@ const PuntuarDolor = () => {
 
   const enviarAlBackend = async (pacienteFinal) => {
     try {
-      const res = await fetch("http://localhost:4000/api/pacientes", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/pacientes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(pacienteFinal),
