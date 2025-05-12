@@ -62,6 +62,7 @@ export default function VistaCitasUnificada() {
     fetcher.get("citas").then((res) => {
       if (res.ok) {
         const citasFormateadas = res.citas.map((cita) => ({
+          id: cita.id_cita,
           title: pacientes.find(p => p.id_paciente === cita.id_paciente)?.nombre_completo || "Sin nombre",
           start: new Date(cita.fecha_inicio),
           end: new Date(cita.fecha_fin),
@@ -118,7 +119,24 @@ export default function VistaCitasUnificada() {
     }
   };
   
-
+  const eliminarCita = async (id) => {
+    try {
+      const res = await fetcher.delete(`citas/${id}`);
+      if (res.ok) {
+        setEventos(eventos.filter(ev => ev.id !== id));
+        setMensajeExito("✅ Cita eliminada correctamente");
+      } else {
+        setMensajeExito("❌ Error al eliminar la cita");
+      }
+    } catch (err) {
+      console.error("Error al eliminar cita:", err);
+      setMensajeExito("❌ Error inesperado al eliminar la cita");
+    } finally {
+      setEventoSeleccionado(null);
+      setTimeout(() => setMensajeExito(""), 4000);
+    }
+  };
+  
   const handleVolver = () => {
     if (rol === "Administrador") navigate("/dashboard/admin");
     else if (rol === "Secretaria") navigate("/dashboard/secretaria");
@@ -161,7 +179,14 @@ export default function VistaCitasUnificada() {
           selectable={rol === "Administrador" || rol === "Secretaria"}
         />
 
-        <Modal title={`🗓️ ${eventoSeleccionado?.title}`} isOpen={!!eventoSeleccionado} onClose={() => setEventoSeleccionado(null)}>
+        <Modal title={`🗓️ ${eventoSeleccionado?.title}`}
+  isOpen={!!eventoSeleccionado}
+  onClose={() => setEventoSeleccionado(null)}
+  onSave={() => {
+    const confirmar = confirm("¿Estás seguro que deseas eliminar esta cita?");
+    if (confirmar) eliminarCita(eventoSeleccionado.id);
+  }}
+  saveLabel="Eliminar">
           <p className="text-gray-700 mb-2">Inicio: {eventoSeleccionado?.start.toLocaleString()}</p>
           <p className="text-gray-700 mb-4">Fin: {eventoSeleccionado?.end.toLocaleString()}</p>
         </Modal>

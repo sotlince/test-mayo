@@ -60,7 +60,7 @@ export default function VistaDashboardAdmin() {
           titulo="Pacientes Registrados"
           cantidad={pacientes.length}
           color="border-blue-400"
-          ruta="/dashboard/admin/pacientes"
+          ruta="/dashboard/admin/pacientes_admin"
           navigate={navigate}
         />
 
@@ -78,7 +78,7 @@ export default function VistaDashboardAdmin() {
           titulo="Reportes Generados"
           cantidad={reportes.length}
           color="border-pink-500"
-          ruta="/dashboard/admin/reportes"
+          ruta="/dashboard/admin/reportes_admin"
           navigate={navigate}
         />
 

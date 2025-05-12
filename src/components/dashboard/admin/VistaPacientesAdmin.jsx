@@ -103,6 +103,7 @@ export default function VistaPacientesAdmin() {
       {/* Tabla de pacientes */}
       <div className="bg-white p-4 shadow rounded-lg">
         <h3 className="text-lg font-semibold mb-3">📋 Pacientes Registrados</h3>
+        <div className="overflow-x-auto">
         <table className="w-full table-auto text-left border-collapse">
           <thead>
             <tr className="text-gray-700 border-b">
@@ -138,6 +139,7 @@ export default function VistaPacientesAdmin() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* Modal de Ver Paciente */}
