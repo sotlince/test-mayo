@@ -159,7 +159,7 @@ const PuntuarDolor = () => {
                         <CloseIcon />
                       </div>
                       <div className="cont-center">
-                      <img src={`/src/assets/img-localizar-dolor/ld-${op.id || "placeholder"}.webp`} alt="" />
+                      <img src={`/img-localizar-dolor/ld-${op.id || "placeholder"}.webp`} alt="" />
                         <div className="ri">
                           <h4 className="titulo">{op.label}</h4>
                           <p className="lado">ZONA</p>
