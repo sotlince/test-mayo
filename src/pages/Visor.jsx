@@ -41,7 +41,7 @@ export default function Visor() {
 
   useEffect(() => {
     fetchDatos();
-    const interval = setInterval(fetchDatos, 50000000000000000000000000000000000000000000000000000); // refresca cada 5 segundos
+    const interval = setInterval(fetchDatos, 5000000); // refresca cada 5 segundos
     return () => clearInterval(interval); // limpia al desmontar
   }, []);
 
@@ -52,36 +52,36 @@ export default function Visor() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-100 to-blue-200 flex flex-col justify-center items-center gap-6 px-6 py-10 font-sans">
+    <div className="min-h-screen bg-gradient-to-b from-blue-100 to-blue-200 flex flex-col justify-center items-center gap-6 px-4 md:px-6 py-10 font-sans">
       
       {/* Título Urgencias */}
-      <h1 className="text-5xl font-extrabold text-red-600 drop-shadow-lg mb-6">
+      <h1 className="text-3xl md:text-5xl font-extrabold text-red-600 drop-shadow-lg mb-6 text-center">
         URGENCIAS
       </h1>
-
+  
       {/* Últimos atendidos */}
       {[...ultimosAtendidos, ...placeholders].slice(0, 2).map((p, i) => (
-        <div key={`atendido-${i}`} className="w-full max-w-3xl">
+        <div key={`atendido-${i}`} className="w-full max-w-xs sm:max-w-md md:max-w-3xl">
           {renderPaciente(p)}
         </div>
       ))}
-
+  
       {/* Llamado actual */}
-      <div className="w-full max-w-6xl">
-        <div className="paciente-llamado animate-call-blink text-6xl font-bold p-12 text-center rounded-2xl shadow-2xl">
+      <div className="w-full max-w-xs sm:max-w-md md:max-w-6xl">
+        <div className="paciente-llamado animate-call-blink text-2xl sm:text-4xl md:text-6xl font-bold px-4 py-8 text-center rounded-2xl shadow-2xl break-words">
           {(llamadoActual?.paciente?.nombre_completo || "XXXXXX XXXXXXX")}
-          <span className="mx-4">|</span>
+          <span className="mx-2 sm:mx-4">|</span>
           {(llamadoActual?.paciente?.rut || "XX.XXX.XXX-X")}
         </div>
       </div>
-
+  
       {/* Próximos pendientes */}
       {[...proximosPendientes, ...placeholders].slice(0, 2).map((p, i) => (
-        <div key={`pendiente-${i}`} className="w-full max-w-3xl">
+        <div key={`pendiente-${i}`} className="w-full max-w-xs sm:max-w-md md:max-w-3xl">
           {renderPaciente(p)}
         </div>
       ))}
-
     </div>
   );
+  
 }
