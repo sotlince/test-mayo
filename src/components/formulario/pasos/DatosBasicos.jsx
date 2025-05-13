@@ -165,7 +165,7 @@ const DatosBasicos = () => {
                 </div>
 
                 {/* Dirección (visual) */}
-                <div className="col">
+{/*                 <div className="col">
                   <div className="cont-input">
                     <TextField
                       label="Dirección (opcional)"
@@ -179,7 +179,7 @@ const DatosBasicos = () => {
                       <InfoOutlineIcon />
                     </IconButton>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
