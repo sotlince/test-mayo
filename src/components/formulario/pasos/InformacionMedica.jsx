@@ -41,6 +41,7 @@ const InformacionMedica = () => {
   const [medicamento, setMedicamentos] = React.useState("no");
   const [cualMedicamento, setCualMedicamento] = React.useState("");
   const navigate = useNavigate();
+  const [currentVideo, setCurrentVideo] = React.useState("video2");
 
   // ✅ Cargar datos guardados al volver
   React.useEffect(() => {
@@ -77,7 +78,7 @@ const InformacionMedica = () => {
   const handleContinuar = () => {
     if (!condiciones.trim()) {
       Swal.fire({
-        icon: "error",
+        imageUrl: "/gifs/gif2.gif",
         title: "Falta el motivo de consulta",
         text: "Por favor selecciona el motivo de consulta antes de continuar.",
       });
@@ -86,16 +87,19 @@ const InformacionMedica = () => {
   
     if (condicion.length === 0) {
       Swal.fire({
-        icon: "error",
-        title: "Falta la condición médica",
+        title: "Faltan campos obligatorios",
         text: "Por favor selecciona al menos una condición médica.",
+        imageUrl: "/gifs/gif1.gif",
+        imageAlt: "Advertencia: campos incompletos",
+        imageWidth: 170, // puedes ajustar el tamaño
+        imageHeight: 170,
       });
       return;
     }
   
     if (alergia.length === 0) {
       Swal.fire({
-        icon: "error",
+        imageUrl: "/gifs/gif2.gif",
         title: "Falta la alergia",
         text: "Por favor selecciona al menos una alergia.",
       });
@@ -104,7 +108,7 @@ const InformacionMedica = () => {
   
     if (medicamento === "si" && !cualMedicamento.trim()) {
       Swal.fire({
-        icon: "error",
+        imageUrl: "/gifs/gif1.gif",
         title: "Falta especificar medicamento",
         text: "Por favor indica cuál medicamento tomas.",
       });
@@ -130,115 +134,166 @@ const InformacionMedica = () => {
   
     navigate("/formulario/localizar-dolor");
   };
+  const leerTexto = (texto) => {
+    window.speechSynthesis.cancel(); // limpia si hay algo ya leyendo
+    const utterance = new SpeechSynthesisUtterance(texto);
+    utterance.lang = "es-ES";
+    window.speechSynthesis.speak(utterance);
+  };
   
 
   return (
-    <Layout video="video2">
-      <div className="container">
-        <div className="row">
-          <div className="col col-12 mb-5">
-            <div className="card">
-              <h3 className="title-card">Información Médica</h3>
-              <div className="grup-form">
-                <div className="col">
-                  <div className="cont-select">
-                    <InputLabel shrink>¿Alguna condición?</InputLabel>
-                    <Select
-                      multiple
-                      value={condicion}
-                      onChange={handleChange2}
-                      input={<OutlinedInput />}
-                      renderValue={(selected) => selected.join(", ")}
-                      MenuProps={MenuProps}
-                    >
-                      {tipoCondicion.map((name) => (
-                        <MenuItem key={name} value={name}>
-                          <Checkbox checked={condicion.includes(name)} />
-                          <ListItemText primary={name} />
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </div>
-                </div>
+    <Layout video={currentVideo}>
+ <div className="container">
+  <div className="row">
+    <div className="col col-12 mb-5">
+      <fieldset className="card">
+      <legend className="title-card">Información Médica</legend>
+        {/* <h3 className="title-card">Información Médica</h3> */}
+        <div className="grup-form">
 
-                <div className="col">
-                  <div className="cont-select">
-                    <InputLabel shrink>¿Alguna Alergia?</InputLabel>
-                    <Select
-                      multiple
-                      value={alergia}
-                      onChange={handleChange3}
-                      input={<OutlinedInput />}
-                      renderValue={(selected) => selected.join(", ")}
-                      MenuProps={MenuProps}
-                    >
-                      {tipoAlergia.map((name) => (
-                        <MenuItem key={name} value={name}>
-                          <Checkbox checked={alergia.includes(name)} />
-                          <ListItemText primary={name} />
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </div>
-                </div>
-
-                <div className="col">
-                  <div className="cont-toggle">
-                    <InputLabel>¿Tomas algún medicamento?</InputLabel>
-                    <ToggleButtonGroup
-                      color="primary"
-                      value={medicamento}
-                      exclusive
-                      onChange={handleMedicamentos}
-                      aria-label="medicamento"
-                    >
-                      <ToggleButton value="si"><SiIcon /></ToggleButton>
-                      <ToggleButton value="no"><NoIcon /></ToggleButton>
-                    </ToggleButtonGroup>
-                  </div>
-                </div>
-
-                {medicamento === "si" && (
-                  <div className="col">
-                    <TextField
-                      label="¿Cuál?"
-                      variant="standard"
-                      value={cualMedicamento}
-                      onChange={(e) => setCualMedicamento(e.target.value)}
-                      slotProps={{
-                        inputLabel: { shrink: true },
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
+          {/* Condiciones */}
+          <div className="col">
+            <div className="cont-select">
+              <InputLabel id="condicion-label" shrink htmlFor="select-condiciones">¿Alguna condición?</InputLabel>
+              
+              <Select
+                id="select-condiciones"
+                labelId="condicion-label"
+                multiple
+                value={condicion}
+                onChange={handleChange2}
+                onFocus={() => setCurrentVideo("video1")}
+                onClick={() => leerTexto("Selecciona una o más condiciones médicas como asma, hipertensión o diabetes.")}
+                input={<OutlinedInput />}
+                renderValue={(selected) => selected.join(", ")}
+                MenuProps={MenuProps}
+                aria-describedby="info-condicion"
+              >
+                {tipoCondicion.map((name) => (
+                  <MenuItem key={name} value={name}>
+                    <Checkbox checked={condicion.includes(name)} />
+                    <ListItemText primary={name} />
+                  </MenuItem>
+                ))}
+              </Select>
+              <span id="info-condicion" className="sr-only">
+                Selecciona una o más condiciones médicas previas como asma o hipertensión.
+              </span>
             </div>
           </div>
 
-          <div className="col col-12">
-            <div className="card">
-              <h3 className="title-card">Motivo de Consulta</h3>
-              <div className="grup-form">
-                <div className="col">
-                  <div className="cont-select">
-                    <InputLabel shrink>¿Por qué vienes al hospital / clínica?</InputLabel>
-                    <Select
-                      value={condiciones}
-                      onChange={handleChange}
-                      displayEmpty
-                      notched
-                    >
-                      <MenuItem value="Dolores">Dolores</MenuItem>
-                      <MenuItem value="Mareos">Mareos</MenuItem>
-                      <MenuItem value="Fractura">Fractura</MenuItem>
-                    </Select>
-                  </div>
-                </div>
-              </div>
+          {/* Alergias */}
+          <div className="col">
+            <div className="cont-select">
+              <InputLabel id="alergia-label" shrink htmlFor="select-alergias">¿Alguna Alergia?</InputLabel>
+              <Select
+                id="select-alergias"
+                labelId="alergia-label"
+                multiple
+                value={alergia}
+                onChange={handleChange3}
+                onFocus={() => setCurrentVideo("video2")}
+                onClick={() => leerTexto("Selecciona una o más alergias como arañas, Flores o Polen.")}
+                input={<OutlinedInput />}
+                renderValue={(selected) => selected.join(", ")}
+                MenuProps={MenuProps}
+                aria-describedby="info-alergia"
+              >
+                {tipoAlergia.map((name) => (
+                  <MenuItem key={name} value={name}>
+                    <Checkbox checked={alergia.includes(name)} />
+                    <ListItemText primary={name} />
+                  </MenuItem>
+                ))}
+              </Select>
+              <span id="info-alergia" className="sr-only">
+                Selecciona las alergias que tengas, por ejemplo a polen, flores o insectos.
+              </span>
+            </div>
+          </div>
+
+          {/* Medicamentos */}
+          <div className="col">
+            <div className="cont-toggle">
+              <InputLabel id="medicamento-label">¿Tomas algún medicamento?</InputLabel>
+              <ToggleButtonGroup
+                color="primary"
+                value={medicamento}
+                exclusive
+                onChange={handleMedicamentos}
+                onFocus={() => setCurrentVideo("video3")}
+                aria-labelledby="medicamento-label"
+                aria-describedby="info-medicamento"
+              >
+                <ToggleButton value="si" aria-label="Sí toma medicamentos"><SiIcon /></ToggleButton>
+                <ToggleButton value="no" aria-label="No toma medicamentos"><NoIcon /></ToggleButton>
+              </ToggleButtonGroup>
+              <span id="info-medicamento" className="sr-only">
+                Indica si estás tomando algún medicamento actualmente.
+              </span>
+            </div>
+          </div>
+
+          {/* ¿Cuál medicamento? */}
+          {medicamento === "si" && (
+            <div className="col">
+              <TextField
+                id="cual-medicamento"
+                label="¿Cuál?"
+                variant="standard"
+                value={cualMedicamento}
+                onFocus={() => setCurrentVideo("video4")}
+                onChange={(e) => setCualMedicamento(e.target.value)}
+                inputProps={{
+                  'aria-describedby': 'info-cual-medicamento'
+                }}
+              />
+              <span id="info-cual-medicamento" className="sr-only">
+                Especifica el nombre del medicamento que tomas actualmente.
+              </span>
+            </div>
+          )}
+
+        </div>
+      </fieldset>
+    </div>
+
+    {/* Motivo de Consulta */}
+    <div className="col col-12">
+      <fieldset className="card">
+        {/* <h3 className="title-card">Motivo de Consulta</h3> */}
+        <legend className="title-card">Motivo de Consulta</legend>
+        <div className="grup-form">
+          <div className="col">
+            <div className="cont-select">
+              <InputLabel id="motivo-label" shrink htmlFor="select-motivo">¿Por qué vienes al hospital / clínica?</InputLabel>
+              <Select
+                id="select-motivo"
+                labelId="motivo-label"
+                value={condiciones}
+                onFocus={() => setCurrentVideo("video1")}
+                onClick={() => leerTexto("Selecciona la razón por la que vienes al hospital como Dolores, Mareos o Fractura.")}
+                onChange={handleChange}
+                displayEmpty
+                notched
+                aria-describedby="info-motivo"
+              >
+                <MenuItem value="Dolores">Dolores</MenuItem>
+                <MenuItem value="Mareos">Mareos</MenuItem>
+                <MenuItem value="Fractura">Fractura</MenuItem>
+              </Select>
+              <span id="info-motivo" className="sr-only">
+                Selecciona el motivo principal de tu consulta médica actual.
+              </span>
             </div>
           </div>
         </div>
-      </div>
+      </fieldset>
+    </div>
+  </div>
+</div>
+
 
       {/* Botones */}
       <div className="footer btns-dos">

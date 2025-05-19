@@ -67,6 +67,13 @@ const LocalizarDolor = () => {
 
   const todasLasOpciones = [...options, ...options2];
 
+  const leerTexto = (texto) => {
+    window.speechSynthesis.cancel(); // detener lecturas anteriores
+    const utterance = new SpeechSynthesisUtterance(texto);
+    utterance.lang = "es-ES";
+    window.speechSynthesis.speak(utterance);
+  };
+
   const handleToggle = (event, newMed) => {
     if (newMed !== null) {
       setToggle(newMed);
@@ -87,10 +94,12 @@ const LocalizarDolor = () => {
       if (selectedValues.length < 3) {
         setSelectedValues([...selectedValues, foundOption]);
       } else {
-        Swal.fire({
-          icon: "warning",
+        Swal.fire({      
           title: "Límite de selección",
           text: "Solo puedes seleccionar máximo 3 zonas del cuerpo.",
+          imageUrl: "/gifs/gif1.gif",
+          imageWidth: 170, // puedes ajustar el tamaño
+          imageHeight: 170,
         });
       }
     }
@@ -104,12 +113,27 @@ const LocalizarDolor = () => {
     }
   }, []);
 
+  React.useEffect(() => {
+    // Espera a que la vista esté completamente montada antes de hablar
+    const timeout = setTimeout(() => {
+      leerTexto("Selecciona hasta tres zonas donde sientas dolor. Usa los botones para cambiar entre vista frontal y reverso.");
+    }, 400); // leve retardo para no chocar con render o cambios de foco
+  
+    return () => {
+      clearTimeout(timeout);
+      window.speechSynthesis.cancel(); // corta cualquier voz activa al desmontar
+    };
+  }, []);
+  
+
   const handleContinuar = () => {
     if (selectedValues.length === 0) {
       Swal.fire({
-        icon: "error",
         title: "Selección obligatoria",
         text: "Debes seleccionar al menos una zona del cuerpo.",
+        imageUrl: "/gifs/gif2.gif",
+        imageWidth: 170, // puedes ajustar el tamaño
+        imageHeight: 170,
       });
       return;
     }
@@ -127,74 +151,88 @@ const LocalizarDolor = () => {
 
   return (
     <Layout video="video2">
-      <div className="container">
+  <div className="container">
+  <div className="row">
+    <div className="col col-12 mb-5">
+      <fieldset className="card">
+        <legend className="title-card">¿Dónde te duele?</legend>
         <div className="row">
-          <div className="col col-12 mb-5">
-            <div className="card">
-              <h3 className="title-card">¿Dónde te duele?</h3>
-              <div className="row">
-                <div className="col col-12">
-                  <div className="grup-bodies">
-                    <div className="btns-b">
-                      <div className="cont-toggle">
-                        <ToggleButtonGroup
-                          color="primary"
-                          value={toggle}
-                          exclusive
-                          onChange={handleToggle}
-                          aria-label="Platform"
-                        >
-                          <ToggleButton value="frontal">FRONTAL</ToggleButton>
-                          <ToggleButton value="reverso">REVERSO</ToggleButton>
-                        </ToggleButtonGroup>
-                      </div>
-                    </div>
+          <div className="col col-12">
+            <div className="grup-bodies">
 
-                    <div className="cont-bodies">
-                      {toggle === "frontal" && (
-                        <FormGroup className="grup-check body-frontal">
-                          <img src={BodyFrontal} alt="" />
-                          {options.map((option) => (
-                            <Checkbox
-                              key={option.id}
-                              className={`points-body point${option.punto}`}
-                              checked={selectedValues.some(zona => zona.id === option.id)}
-                              onChange={handleChange}
-                              value={option.id}
-                              disabled={
-                                !selectedValues.some(zona => zona.id === option.id) &&
-                                selectedValues.length >= 3
-                              }
-                            />
-                          ))}
-                        </FormGroup>
-                      )}
-                      {toggle === "reverso" && (
-                        <FormGroup className="grup-check body-reverso">
-                          <img src={BodyReverso} alt="" />
-                          {options2.map((option) => (
-                            <Checkbox
-                              key={option.id}
-                              className={`points-body point${option.punto}`}
-                              checked={selectedValues.some(zona => zona.id === option.id)}
-                              onChange={handleChange}
-                              value={option.id}
-                              disabled={
-                                !selectedValues.some(zona => zona.id === option.id) &&
-                                selectedValues.length >= 3
-                              }
-                            />
-                          ))}
-                        </FormGroup>
-                      )}
-                    </div>
-                  </div>
+              {/* Alternar vista */}
+              <div className="btns-b">
+                <div className="cont-toggle">
+                  <ToggleButtonGroup
+                    color="primary"
+                    value={toggle}
+                    exclusive
+                    onChange={handleToggle}
+                    aria-label="Seleccionar vista del cuerpo"
+                    aria-describedby="info-toggle"
+                  >
+                    <ToggleButton value="frontal" aria-label="Vista frontal del cuerpo">FRONTAL</ToggleButton>
+                    <ToggleButton value="reverso" aria-label="Vista posterior del cuerpo">REVERSO</ToggleButton>
+                  </ToggleButtonGroup>
+                  <span id="info-toggle" className="sr-only">
+                    Usa este selector para cambiar entre vista frontal y reverso del cuerpo.
+                  </span>
                 </div>
               </div>
+
+              {/* Imagen y selección */}
+              <div className="cont-bodies" aria-describedby="info-cuerpo">
+                {toggle === "frontal" && (
+                  <FormGroup className="grup-check body-frontal">
+                    <img src={BodyFrontal} alt="Vista frontal del cuerpo humano" />
+                    {options.map((option) => (
+                      <Checkbox
+                        key={option.id}
+                        className={`points-body point${option.punto}`}
+                        checked={selectedValues.some(zona => zona.id === option.id)}
+                        onChange={handleChange}
+                        value={option.id}
+                        disabled={
+                          !selectedValues.some(zona => zona.id === option.id) &&
+                          selectedValues.length >= 3
+                        }
+                        aria-label={`Seleccionar zona ${option.label.replace(/_/g, " ")}`}
+                      />
+                    ))}
+                  </FormGroup>
+                )}
+                {toggle === "reverso" && (
+                  <FormGroup className="grup-check body-reverso">
+                    <img src={BodyReverso} alt="Vista posterior del cuerpo humano" />
+                    {options2.map((option) => (
+                      <Checkbox
+                        key={option.id}
+                        className={`points-body point${option.punto}`}
+                        checked={selectedValues.some(zona => zona.id === option.id)}
+                        onChange={handleChange}
+                        value={option.id}
+                        disabled={
+                          !selectedValues.some(zona => zona.id === option.id) &&
+                          selectedValues.length >= 3
+                        }
+                        aria-label={`Seleccionar zona ${option.label.replace(/_/g, " ")}`}
+                      />
+                    ))}
+                  </FormGroup>
+                )}
+                <span id="info-cuerpo" className="sr-only">
+                  Puedes seleccionar hasta tres zonas del cuerpo donde sientas dolor.
+                </span>
+              </div>
+
             </div>
           </div>
         </div>
-      </div>
+      </fieldset>
+    </div>
+  </div>
+</div>
+
 
       <div className="footer btns-dos">
         <Button

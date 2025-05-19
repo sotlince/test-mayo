@@ -23,6 +23,13 @@ const PuntuarDolor = () => {
     return inicial;
   });
 
+  const leerTexto = (texto) => {
+    window.speechSynthesis.cancel(); // detiene lecturas previas
+    const utterance = new SpeechSynthesisUtterance(texto);
+    utterance.lang = "es-ES";
+    window.speechSynthesis.speak(utterance);
+  };
+
   // ✅ Cada vez que cambias un slider, actualiza solo esa zona
   const handleSliderChange = (id, value) => {
     const idStr = id.toString();
@@ -87,7 +94,9 @@ const PuntuarDolor = () => {
   
     Swal.fire({
       title: "¿Estás seguro que deseas enviar esta información?",
-      icon: "warning",
+      imageUrl: "/gifs/gif2.gif",
+      imageWidth: 170, // puedes ajustar el tamaño
+      imageHeight: 170,
       showCancelButton: true,
       confirmButtonText: "Estoy seguro",
       cancelButtonText: "Volver",
@@ -100,6 +109,16 @@ const PuntuarDolor = () => {
     });
   };
   
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      leerTexto("Indica el nivel de dolor en cada zona seleccionada usando el control deslizante.");
+    }, 500); // da un pequeño retardo para evitar conflicto con carga visual
+  
+    return () => {
+      clearTimeout(timeout);
+      window.speechSynthesis.cancel(); // corta lectura si el usuario cambia de vista rápido
+    };
+  }, []);
 
   const enviarAlBackend = async (pacienteFinal) => {
     try {
@@ -135,50 +154,67 @@ const PuntuarDolor = () => {
     } catch (error) {
       console.error("❌ Error al enviar:", error);
       Swal.fire({
-        icon: "error",
         title: "Error de conexión",
-        text: "No se pudo conectar con el servidor.",
+        text: "Debes seleccionar el nivel de gravedad.",
+        imageUrl: "/gifs/gif1.gif",
+        imageWidth: 170, // puedes ajustar el tamaño
+        imageHeight: 170,
       });
     }
   };
 
   return (
     <Layout video="video2">
-      <div className="container">
-        <div className="row">
-          <div className="col col-12 mb-5">
-            <div className="card">
-              <h3 className="title-card">¿Cuánto te duele?</h3>
-              <div className="grup-card">
-                {zonasDolor.length === 0 ? (
-                  <p>No hay zonas seleccionadas. Vuelve al paso anterior.</p>
-                ) : (
-                  zonasDolor.map((op) => (
-                    <div key={op.id} className="card puntuar-dolor">
-                      <div className="close">
-                        <CloseIcon />
-                      </div>
-                      <div className="cont-center">
-                      <img src={`/img-localizar-dolor/ld-${op.id || "placeholder"}.webp`} alt="" />
-                        <div className="ri">
-                          <h4 className="titulo">{op.label}</h4>
-                          <p className="lado">ZONA</p>
-                        </div>
-                      </div>
-                      <div className="puntuar">
-                      <ColoredSlider
-  value={puntuaciones[op.id.toString()]}
-  onChange={(e, value) => handleSliderChange(op.id.toString(), value)}
-/>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
-          </div>
+
+<div className="container">
+  <div className="row">
+    <div className="col col-12 mb-5">
+      <fieldset className="card">
+        <legend className="title-card">¿Cuánto te duele?</legend>
+        <div className="grup-card">
+          {zonasDolor.length === 0 ? (
+            <p role="alert">No hay zonas seleccionadas. Vuelve al paso anterior.</p>
+          ) : (
+            zonasDolor.map((op) => (
+              <fieldset key={op.id} className="card puntuar-dolor">
+                <legend className="sr-only">Zona: {op.label}</legend>
+
+                <div className="close" aria-hidden="true">
+                  <CloseIcon />
+                </div>
+
+                <div className="cont-center">
+                  <img
+                    src={`/img-localizar-dolor/ld-${op.id || "placeholder"}.webp`}
+                    alt={`Imagen ilustrativa de la zona: ${op.label}`}
+                  />
+                  <div className="ri">
+                    <h4 className="titulo">{op.label}</h4>
+                    <p className="lado">ZONA</p>
+                  </div>
+                </div>
+
+                <div className="puntuar">
+                  <label htmlFor={`slider-${op.id}`} className="sr-only">
+                    Nivel de dolor para la zona {op.label}
+                  </label>
+                  <ColoredSlider
+                    id={`slider-${op.id}`}
+                    value={puntuaciones[op.id.toString()]}
+                    onChange={(e, value) => handleSliderChange(op.id.toString(), value)}
+                    aria-valuetext={`Dolor nivel ${puntuaciones[op.id.toString()]}`}
+                    aria-label={`Dolor en ${op.label}`}
+                  />
+                </div>
+              </fieldset>
+            ))
+          )}
         </div>
-      </div>
+      </fieldset>
+    </div>
+  </div>
+</div>
+
       <div className="footer btns-dos">
         <Button
           variant="outlined"
